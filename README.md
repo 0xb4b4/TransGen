@@ -1,0 +1,2 @@
+# TransGen
+Transparent barcode generator.
