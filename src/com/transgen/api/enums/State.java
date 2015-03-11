@@ -56,21 +56,24 @@ public enum State {
     WISCONSIN("WI", "636031"),
     WYOMING("WY", "636060");
 
-    private final String iin;
-    private final String abbrev;
-
     private static final Map<String, State> abbrevMap;
-
     static {
         abbrevMap = new HashMap<String, State>();
         for (State v : State.values()) {
             abbrevMap.put(v.getAbbreviation(), v);
         }
     }
+    private final String iin;
+    private final String abbrev;
 
     private State(final String abbrev, final String iin) {
         this.iin = iin;
         this.abbrev = abbrev;
+    }
+
+    public static State getByAbbreviation(String abbrev) {
+        if (abbrevMap.containsKey(abbrev)) return abbrevMap.get(abbrev.toUpperCase());
+        return null;
     }
 
     public String getIIN() {
@@ -79,10 +82,5 @@ public enum State {
 
     public String getAbbreviation() {
         return this.abbrev;
-    }
-
-    public static State getByAbbreviation(String abbrev) {
-        if (abbrevMap.containsKey(abbrev)) return abbrevMap.get(abbrev.toUpperCase());
-        return null;
     }
 }

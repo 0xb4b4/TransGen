@@ -61,12 +61,12 @@ public class SingleForm {
     }
 
     public void generateData() {
-        if(chooseAState.getSelectedItem() == null) {
+        if (chooseAState.getSelectedItem() == null) {
             JOptionPane.showMessageDialog(null, "Error: You must choose a state.");
         }
 
         ArrayList<String> data = new ArrayList<String>();
-        for(String s : fields.keySet()) data.add(s + "::" + fields.get(s).getText());
+        for (String s : fields.keySet()) data.add(s + "::" + fields.get(s).getText());
 
         StateGenerator sg = StateGenerator.instantiateStateScript(TransGen.getInstance().getStateGenerators().get(chooseAState.getSelectedItem()), data.toArray(new String[data.size()]));
         sg.generate(Integer.parseInt(twoDW.getText()), Integer.parseInt(twoDH.getText()), Integer.parseInt(oneDW.getText()), Integer.parseInt(oneDH.getText()));

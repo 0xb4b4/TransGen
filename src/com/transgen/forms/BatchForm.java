@@ -58,15 +58,15 @@ public class BatchForm {
         String[] header = lines.get(0).split(";");
         String[] fields = lines.get(1).split(";");
 
-        if(chooseAState.getSelectedItem() == null) {
+        if (chooseAState.getSelectedItem() == null) {
             JOptionPane.showMessageDialog(null, "Error: You must choose a state.");
         }
 
-        if(chooseAState.getSelectedItem() != null && !header[0].equalsIgnoreCase((String) chooseAState.getSelectedItem())) {
+        if (chooseAState.getSelectedItem() != null && !header[0].equalsIgnoreCase((String) chooseAState.getSelectedItem())) {
             JOptionPane.showMessageDialog(null, "Warning: CSV state code does not match script state code.");
         }
 
-        for(int i = 1; i < lines.size(); i++ ) {
+        for (int i = 1; i < lines.size(); i++) {
             String[] l = lines.get(i).split(";");
             for (int j = 0; j < l.length; j++) {
                 data.add(fields[j] + "::" + l[j]);

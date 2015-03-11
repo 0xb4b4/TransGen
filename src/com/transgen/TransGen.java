@@ -33,6 +33,10 @@ public class TransGen {
         new MainForm().main();
     }
 
+    public static TransGen getInstance() {
+        return instance;
+    }
+
     public void init() {
         System.out.println("[INFO] Loading scripts from disk...");
         stateGenerators = loadStateScripts();
@@ -47,16 +51,16 @@ public class TransGen {
         String check = "";
         Integer total = classes.size();
         Iterator it = classes.entrySet().iterator();
-        for(Class c : classes.values()) {
+        for (Class c : classes.values()) {
             Test t = new Test((Class) c);
             t.runTest();
-            if(t.isFailing()) {
+            if (t.isFailing()) {
                 check += c.getSimpleName() + " ";
                 failing++;
             }
         }
         System.out.println("[INFO] " + failing + "/" + classes.size() + " scripts are failing.");
-        if(check.length() > 0) System.out.println("[INFO] CHECK: " + check);
+        if (check.length() > 0) System.out.println("[INFO] CHECK: " + check);
         else System.out.println("[INFO] All checked scripts are passing!");
     }
 
@@ -67,7 +71,7 @@ public class TransGen {
         File dir = new File("scripts");
         File[] files = dir.listFiles((dir1, name) -> name.endsWith(".groovy"));
 
-        if(files == null) return out;
+        if (files == null) return out;
 
         for (File script : files) {
             //Load the script
@@ -95,9 +99,5 @@ public class TransGen {
 
     public HashMap<String, Class> getStateGenerators() {
         return stateGenerators;
-    }
-
-    public static TransGen getInstance() {
-        return instance;
     }
 }

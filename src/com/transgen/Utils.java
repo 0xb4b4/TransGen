@@ -1,5 +1,6 @@
 package com.transgen;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,22 +61,35 @@ public class Utils {
         int len = str.length();
         Map<Character, Integer> numChars = new HashMap<Character, Integer>(Math.min(len, 26));
 
-        for (int i = 0; i < len; ++i)
-        {
+        for (int i = 0; i < len; ++i) {
             char charAt = str.charAt(i);
 
-            if (!numChars.containsKey(charAt))
-            {
+            if (!numChars.containsKey(charAt)) {
                 numChars.put(charAt, 1);
-            }
-            else
-            {
+            } else {
                 numChars.put(charAt, numChars.get(charAt) + 1);
             }
         }
 
-        for(Character s : numChars.keySet()) {
+        for (Character s : numChars.keySet()) {
             System.out.println(s + " " + numChars.get(s));
         }
+    }
+
+    public static boolean delete(File file) {
+        File[] flist = null;
+        if (file == null) return false;
+        if (file.isFile()) return file.delete();
+        if (!file.isDirectory()) return false;
+
+        flist = file.listFiles();
+        if (flist != null && flist.length > 0) {
+            for (File f : flist) {
+                if (!delete(f)) {
+                    return false;
+                }
+            }
+        }
+        return file.delete();
     }
 }

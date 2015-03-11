@@ -7,8 +7,11 @@ import com.transgen.api.enums.State;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -45,6 +48,7 @@ public class Test {
         ArrayList<String> data = parseBarcodeData(s, out);
         StateGenerator sg = StateGenerator.instantiateStateScript(clazz, data.toArray(new String[data.size()]));
         printStateReport(sg, out);
+        //sg.generate2D(1000, 1000);
     }
 
     public String generateFieldHashMap(State s, String real) {
@@ -117,15 +121,23 @@ public class Test {
         String[] genSplit = gen.split(sg.getFields("DL").get(0));
 
         StringBuilder builder = new StringBuilder();
-        for(String s : Arrays.copyOfRange(realSplit, 1, realSplit.length))  builder.append(s);
+        for (String s : Arrays.copyOfRange(realSplit, 1, realSplit.length)) builder.append(s);
         String realSplitData = sg.getFields("DL").get(0) + builder.toString();
 
         builder = new StringBuilder();
-        for(String s : Arrays.copyOfRange(genSplit, 1, genSplit.length)) builder.append(s);
+        for (String s : Arrays.copyOfRange(genSplit, 1, genSplit.length)) builder.append(s);
         String genSplitData = sg.getFields("DL").get(0) + builder.toString();
 
         System.out.println("PASS (HEADER)? " + (realSplit[0]).equalsIgnoreCase(genSplit[0]));
         System.out.println("PASS (NO HEADER)? " + (realSplitData).equalsIgnoreCase(genSplitData));
+        try {
+            sg.generate2D(300, 100);
+            if (Files.exists(Paths.get(sg.getStateCode()))) System.out.println("GENERATION PASSED!");
+            else System.out.println("GENERATION FAILED!");
+        } catch (Exception e) {
+            if (Files.notExists(Paths.get(sg.getStateCode()))) System.out.println("GENERATION FAILED!");
+        }
+        Utils.delete(new File(sg.getStateCode()));
         System.out.println("======================================================================");
     }
 }

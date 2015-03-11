@@ -1,22 +1,22 @@
 package com.transgen.api;
 
-import com.transgen.api.enums.State;
 import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.oned.Code128Writer;
-import com.google.zxing.pdf417.PDF417Writer;
-import com.google.zxing.pdf417.encoder.Dimensions;
+import com.itextpdf.text.pdf.BarcodePDF417;
+import com.transgen.api.enums.State;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 public abstract class StateGenerator {
     private final String STATE_CODE;
@@ -271,25 +271,35 @@ public abstract class StateGenerator {
         }
     }
 
-    public void generatePDF417(String data, int row, int col, int ecl, int width, int height) {
-        try {
-            PDF417Writer pdf = new PDF417Writer();
+    public void generatePDF417(String data, int col, int row, int ecl, int width, int height) {
+        BarcodePDF417 b = new BarcodePDF417();
+        b.setText(data);
+        b.setErrorLevel(ecl);
+        b.setCodeRows(row);
+        b.setCodeColumns(col);
+        b.setOptions(BarcodePDF417.PDF417_FIXED_COLUMNS);
 
-            Map hints = new HashMap();
-            hints.put(EncodeHintType.MARGIN, 0);
-            hints.put(EncodeHintType.PDF417_DIMENSIONS, new Dimensions(col, col, row, row));
-            hints.put(EncodeHintType.CHARACTER_SET, "ISO8859_2");
-            hints.put(EncodeHintType.ERROR_CORRECTION, ecl);
+        java.awt.Image i = b.createAwtImage(Color.BLACK, Color.WHITE);
+        int type = BufferedImage.TYPE_INT_RGB;
+        i = i.getScaledInstance(width, height, 0);
+        BufferedImage dest = new BufferedImage(width, height, type);
+        Graphics2D g2 = dest.createGraphics();
+        g2.drawImage(i, 0, 0, null);
+        g2.dispose();
 
-            BitMatrix matrix = pdf.encode(data, BarcodeFormat.PDF_417, width, height, hints);
-            if (Files.notExists(Paths.get(this.getStateCode()))) {
+        if (Files.notExists(Paths.get(this.getStateCode()))) {
+            try {
                 Files.createDirectory(Paths.get(this.getStateCode()));
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            FileOutputStream fos = new FileOutputStream(new File(this.getStateCode() + File.separator + "PDF417_" + this.getUniqueFilename() + ".png"));
-            MatrixToImageWriter.writeToStream(matrix, "png", fos);
-            fos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        }
+        File file = new File(this.getStateCode() + File.separator + "PDF417_" + this.getUniqueFilename() + ".png");
+        try {
+            ImageIO.write(dest, "png", file);
+        } catch (IOException e) {
+            System.out.println("Write error for " + file.getPath() +
+                    ": " + e.getMessage());
         }
     }
 }
