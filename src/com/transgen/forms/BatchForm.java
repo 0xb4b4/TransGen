@@ -93,13 +93,13 @@ public class BatchForm {
         String s = (String) jcb.getSelectedItem();
         if (s != null) {
             StateGenerator sg = StateGenerator.instantiateStateScript(TransGen.getInstance().getStateGenerators().get(s), new String[]{});
-            String ex = sg.getStateCode();
+            String ex = sg.getStateCode() + ";<2D_WIDTH>;<2D_HEIGHT>;<1D_WIDTH>;<1D_HEIGHT>";
             for (String d : sg.getDocuments()) {
                 for (String f : sg.getFields(d)) {
-                    ex += f + ",";
+                    ex += f + ";";
                 }
             }
-            ex = ex.replaceAll(",$", "");
+            ex = ex.replaceAll(";$", "");
             ex += "\n";
 
             Set<String> aamvaFields = new HashSet<String>();
@@ -110,15 +110,15 @@ public class BatchForm {
             for (String d : sg.getDocuments()) {
                 for (String f : sg.getFields(d)) {
                     if (!aamvaFields.contains(f)) {
-                        ex += "<UNKNOWN DATA>,";
+                        ex += "<UNKNOWN DATA>;";
                     } else {
                         AAMVAField e = AAMVAField.valueOf(f);
-                        ex += "<" + e.getElementDesc().toUpperCase() + ">,";
+                        ex += "<" + e.getElementDesc().toUpperCase() + ">;";
                     }
 
                 }
             }
-            ex = ex.replaceAll(",$", "");
+            ex = ex.replaceAll(";$", "");
             ex += "\n";
             csvExample.setLineWrap(true);
             csvExample.setText(ex);

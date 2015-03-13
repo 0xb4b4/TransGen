@@ -1,5 +1,8 @@
 package com.transgen.api.enums;
 
+/**
+ * An enum containing all standard AAMVA fields, their data ref and description
+ */
 public enum AAMVAField {
     DCA("a", "Jurisdiction-specific vehicle class"),
     DCB("b", "Jurisdiction-specific restriction codes"),
@@ -55,15 +58,31 @@ public enum AAMVAField {
     private final String dataRef;
     private final String elementDesc;
 
+    /**
+     * Create a new AAMVAField enum
+     *
+     * @param dataRef     - the data reference for this field
+     * @param elementDesc - the text description of this field
+     */
     private AAMVAField(final String dataRef, final String elementDesc) {
         this.dataRef = dataRef;
         this.elementDesc = elementDesc;
     }
 
+    /**
+     * Get the data reference
+     *
+     * @return - the data reference for this field
+     */
     public String getDataRef() {
         return dataRef;
     }
 
+    /**
+     * Get the fields description
+     *
+     * @return - the text description of this field
+     */
     public String getElementDesc() {
         return elementDesc;
     }

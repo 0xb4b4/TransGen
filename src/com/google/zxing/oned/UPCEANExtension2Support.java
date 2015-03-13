@@ -32,7 +32,7 @@ final class UPCEANExtension2Support {
 
     /**
      * @param raw raw content of extension
-     * @return formatted interpretation of raw content as a {@link Map} mapping
+     * @return formatted interpretation of raw content as a {@link java.util.Map} mapping
      * one {@link ResultMetadataType} to appropriate value, or {@code null} if not known
      */
     private static Map<ResultMetadataType, Object> parseExtensionString(String raw) {

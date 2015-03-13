@@ -3,6 +3,9 @@ package com.transgen.api.enums;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * An enum containing all 50 states + DC and their abbreviation and IIN.
+ */
 public enum State {
     ALABAMA("AL", "636033"),
     ALASKA("AK", "636059"),
@@ -57,29 +60,53 @@ public enum State {
     WYOMING("WY", "636060");
 
     private static final Map<String, State> abbrevMap;
+
     static {
         abbrevMap = new HashMap<String, State>();
         for (State v : State.values()) {
             abbrevMap.put(v.getAbbreviation(), v);
         }
     }
+
     private final String iin;
     private final String abbrev;
 
+    /**
+     * Create a new state enum
+     *
+     * @param abbrev - the 2 character state abbreviation/state code as a string
+     * @param iin    - the 6 digit IIN number represented as a string
+     */
     private State(final String abbrev, final String iin) {
         this.iin = iin;
         this.abbrev = abbrev;
     }
 
+    /**
+     * Get the state enum by its abbreviation/state code.
+     *
+     * @param abbrev - the 2 character state abbreviation as a string
+     * @return the state enum for the specified abbreviation
+     */
     public static State getByAbbreviation(String abbrev) {
         if (abbrevMap.containsKey(abbrev)) return abbrevMap.get(abbrev.toUpperCase());
         return null;
     }
 
+    /**
+     * Get the IIN number for this state
+     *
+     * @return the 6 digit IIN number represented as a string
+     */
     public String getIIN() {
         return this.iin;
     }
 
+    /**
+     * Get the state abbreviation/state code
+     *
+     * @return the 2 character state abbreviation
+     */
     public String getAbbreviation() {
         return this.abbrev;
     }

@@ -12,7 +12,7 @@ import java.util.Iterator;
 
 public class TransGen {
 
-    public static boolean debug = false;
+    public static boolean debug = true;
     private static TransGen instance;
 
     private HashMap<String, Class> stateGenerators = new HashMap<String, Class>();

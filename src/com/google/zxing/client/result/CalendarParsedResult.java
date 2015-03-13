@@ -98,7 +98,7 @@ public final class CalendarParsedResult extends ParsedResult {
      * or DATE-TIME (e.g. 20081021T123000 for local time, or 20081021T123000Z for UTC).
      *
      * @param when The string to parse
-     * @throws ParseException if not able to parse as a date
+     * @throws java.text.ParseException if not able to parse as a date
      */
     private static Date parseDate(String when) throws ParseException {
         if (!DATE_TIME.matcher(when).matches()) {
@@ -188,7 +188,7 @@ public final class CalendarParsedResult extends ParsedResult {
     }
 
     /**
-     * @return event end {@link Date}, or {@code null} if event has no duration
+     * @return event end {@link java.util.Date}, or {@code null} if event has no duration
      * @see #getStart()
      */
     public Date getEnd() {

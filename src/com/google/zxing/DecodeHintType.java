@@ -42,7 +42,7 @@ public enum DecodeHintType {
 
     /**
      * Image is known to be of one of a few possible formats.
-     * Maps to a {@link List} of {@link BarcodeFormat}s.
+     * Maps to a {@link java.util.List} of {@link BarcodeFormat}s.
      */
     POSSIBLE_FORMATS(List.class),
 

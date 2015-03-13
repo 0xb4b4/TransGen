@@ -26,7 +26,7 @@ import com.google.zxing.NotFoundException;
  * Imaging library, but which may not be available in other environments such as J2ME, and vice
  * versa.
  * <p>
- * The implementation used can be controlled by calling {@link #setGridSampler(GridSampler)}
+ * The implementation used can be controlled by calling {@link #setGridSampler(com.google.zxing.common.GridSampler)}
  * with an instance of a class which implements this interface.
  *
  * @author Sean Owen
